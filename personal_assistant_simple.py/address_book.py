@@ -39,15 +39,17 @@ class AddressBook(UserDict):
         self.data[record.name.value] = record
 
     def save_to_file(self, filename):
-        filename = r"C:\Projects\personal_assistant_simple.py\phonebook.csv"
         with open(filename, "w", newline="") as file:
             writer = csv.writer(file)
             for record in self.data.values():
                 phones = [phone.value for phone in record.phones]
-                writer.writerow([record.name.value, *phones]) 
+                writer.writerow([record.name.value, *phones])
 
     def load_to_file(self, filename):
-        filename = r"C:\Projects\personal_assistant_simple.py\phonebook.csv"
+        if not os.path.exists(filename):
+            # Створюємо порожній файл, якщо він не існує
+            open(filename, "w").close()
+
         with open(filename, "r", newline="") as file:
             reader = csv.reader(file)
             for row in reader:
